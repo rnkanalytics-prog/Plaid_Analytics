@@ -39,7 +39,7 @@ dbt — plaid_dbt (Business Logic + Views)
 Looker Studio — Analytics Dashboard
 ```
 
-All steps are orchestrated and scheduled daily by **Apache Airflow**.
+All steps are orchestrated by **Apache Airflow**.
 
 ---
 
