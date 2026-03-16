@@ -1,9 +1,9 @@
-# Plaid Analytics — End-to-End Financial Data Pipeline
+# Plaid Analytics — End-to-End Data Engineering Pipeline
 
 > **Live Dashboard:** [Looker Studio Dashboard](URL)
 
-![Pipeline Architecture](Airflow-ETL/Airflow-ETL.png)
-
+The Looker Studio dashboard connects directly to `plaid_dbt.analytics_view` in BigQuery and refreshes automatically when the pipeline runs.
+![Dashboard](Looker Dashboard/Dashboard.png)
 ---
 
 ## Overview
@@ -59,6 +59,8 @@ All steps are orchestrated and scheduled daily by **Apache Airflow**.
 ---
 
 ## Pipeline Tasks
+
+![Pipeline Architecture](Airflow-ETL/Airflow-ETL.png)
 
 The Airflow DAG runs 5 tasks in sequence every day:
 
@@ -290,12 +292,6 @@ plaid-raw-data/
 ![GCS Raw Data](GCS/Google_Cloud_Raw_Data.png)
 
 ---
-
-## Dashboard
-
-The Looker Studio dashboard connects directly to `plaid_dbt.analytics_view` in BigQuery and refreshes automatically when the pipeline runs.
-
-![Looker Dashboard](Looker%20Dashboard/URL)
 
 ---
 
