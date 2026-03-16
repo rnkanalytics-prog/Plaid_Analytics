@@ -1,0 +1,43 @@
+version: 2
+
+models:
+  - name: fact_transactions
+    columns:
+      - name: plaid_transaction_id
+        tests:
+          - not_null
+          - unique
+      - name: account_id
+        tests:
+          - not_null
+      - name: transaction_id
+        tests:
+          - not_null
+
+  - name: dim_account
+    columns:
+      - name: account_id
+        tests:
+          - not_null
+          - unique
+
+  - name: dim_date
+    columns:
+      - name: date_id
+        tests:
+          - not_null
+          - unique
+
+  - name: dim_category
+    columns:
+      - name: category_id
+        tests:
+          - not_null
+          - unique
+
+  - name: dim_location
+    columns:
+      - name: location_id
+        tests:
+          - not_null
+          - unique
