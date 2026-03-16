@@ -3,7 +3,8 @@
 > **Live Dashboard:** [Looker Studio Dashboard](URL)
 
 The Looker Studio dashboard connects directly to `plaid_dbt.analytics_view` in BigQuery and refreshes automatically when the pipeline runs.
-![Dashboard](Looker Dashboard/Dashboard.png)
+![Looker Dashboard](Looker%20Dashboard/Dashboard.png)
+
 ---
 
 ## Overview
