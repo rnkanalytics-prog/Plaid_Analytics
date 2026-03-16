@@ -1,6 +1,6 @@
 # Plaid Analytics — End-to-End Data Engineering Pipeline
 
-> **Live Dashboard:** [Looker Studio Dashboard](URL)
+> **Live Dashboard:** [Looker Studio Dashboard](https://lookerstudio.google.com/reporting/c1c61c5a-3e01-4428-9ef3-9dafe1ee9368)
 
 The Looker Studio dashboard connects directly to `plaid_dbt.analytics_view` in BigQuery and refreshes automatically when the pipeline runs.
 ![Looker Dashboard](Looker%20Dashboard/Dashboard.png)
