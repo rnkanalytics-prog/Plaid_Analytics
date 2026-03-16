@@ -18,7 +18,7 @@ The Looker Studio dashboard connects directly to `plaid_dbt.analytics_view` in B
 Plaid API (Sandbox)
     │
     ▼
-Python Extract + Faker Generator (500,000 transactions)
+Python Extract (500,000 transactions)
     │
     ▼
 Google Cloud Storage — Raw Layer (JSONL)
@@ -68,10 +68,10 @@ The Airflow DAG runs 5 tasks in sequence every day:
 Clears all BigQuery tables before each run to prevent duplicate data from retries or re-runs.
 
 ### Task 2 — Extract
-- Connects to the **Plaid Sandbox API** and pulls up to 500 real financial transactions
-- Generates **500,000 synthetic transactions** using Faker across 27 merchant categories
-- Distributes transactions across **5 account owners** with unique account IDs
-- Saves as **newline-delimited JSON (.jsonl)** and uploads to GCS with a 10-minute timeout
+- Connects to the **Plaid Sandbox API** to ingest real financial transaction data.
+- Extends pipeline data to **500,000+ transactions** using synthetic generation to simulate production-scale load and validate pipeline performance at volume.
+- Distributes transactions across **5 account owners** with unique account IDs spanning 27 merchant categories.
+- Saves as **newline-delimited JSON (.jsonl)** and uploads to GCS with fault-tolerant 10-minute timeout.
 
 ### Task 3 — Transform (PySpark)
 - Reads raw JSONL from GCS into a Spark DataFrame
@@ -175,8 +175,6 @@ Food & Drink, General Merchandise, Entertainment, Travel, Transportation, Person
 | Metric | Value |
 |---|---|
 | Total Transactions | ~500,200 per run |
-| Real Plaid Transactions | ~200 |
-| Synthetic Transactions | 500,000 |
 | Date Range | Rolling 365 days |
 | Unique Merchants | 27 |
 
