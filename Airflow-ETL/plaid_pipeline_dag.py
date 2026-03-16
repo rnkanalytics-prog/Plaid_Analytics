@@ -205,11 +205,17 @@ def extract():
 
     print("Saved as newline delimited JSON")
 
-    # Upload with extended timeout
+    # Delete ALL existing extract files before uploading fresh one
     today      = dt.datetime.today().strftime('%Y-%m-%d')
     gcs_client = storage.Client(project=GCS_PROJECT)
     bucket     = gcs_client.bucket(GCS_BUCKET)
-    blob       = bucket.blob(f'extract/raw_transactions_{today}.jsonl')
+    old_extract = list(bucket.list_blobs(prefix='extract/'))
+    for old_blob in old_extract:
+        old_blob.delete()
+        print(f'Deleted old extract file: {old_blob.name}')
+
+    # Upload fresh file
+    blob = bucket.blob(f'extract/raw_transactions_{today}.jsonl')
     blob.upload_from_filename('/tmp/raw_transactions.jsonl', timeout=600)
 
     print(f'Uploaded {len(combined)} transactions to GCS')
@@ -234,12 +240,12 @@ def transform():
     latest.download_to_filename('/tmp/raw_transactions.jsonl')
     print(f"Downloaded {latest.name}")
 
-    # Delete old transform files for today before writing new ones
+    # Delete ALL existing transform files before writing new ones
     today_str  = dt.datetime.today().strftime('%Y-%m-%d')
-    old_blobs  = list(bucket.list_blobs(prefix=f'transform/plaid_transform_{today_str}'))
+    old_blobs  = list(bucket.list_blobs(prefix='transform/'))
     for old_blob in old_blobs:
         old_blob.delete()
-        print(f'Deleted old file: {old_blob.name}')
+        print(f'Deleted old transform file: {old_blob.name}')
 
     # Start Spark session
     spark = SparkSession.builder \
@@ -438,6 +444,12 @@ def load():
         'dim_category':      dim_category,
         'dim_date':          dim_date,
     }
+
+    # Delete ALL existing load files before uploading fresh ones
+    old_load_blobs = list(bucket.list_blobs(prefix='load/'))
+    for old_blob in old_load_blobs:
+        old_blob.delete()
+        print(f'Deleted old load file: {old_blob.name}')
 
     for table_name, df_table in tables.items():
         filename = f'/tmp/{table_name}.parquet'
