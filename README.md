@@ -161,9 +161,7 @@ Schema tests are defined in `schema.yml` and run automatically as part of the Ai
 |---|---|---|
 | `fact_transactions` | `plaid_transaction_id` | `not_null`, `unique` |
 | `fact_transactions` | `account_id` | `not_null` |
-| `fact_transactions` | `date_id` | `not_null` |
-| `fact_transactions` | `category_id` | `not_null` |
-| `fact_transactions` | `location_id` | `not_null` |
+| `fact_transactions` | `transaction_id` | `not_null` |
 | `dim_account` | `account_id` | `not_null`, `unique` |
 | `dim_date` | `date_id` | `not_null`, `unique` |
 | `dim_category` | `category_id` | `not_null`, `unique` |
