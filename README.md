@@ -114,6 +114,8 @@ fact_transactions
 | `dim_category` | Plaid personal finance categories |
 | `dim_location` | NYC borough location data |
 
+![BigQuery Tables](BigQuery/ERD.png)
+
 ![BigQuery Tables](BigQuery/BigQueryTables.png)
 
 ### Transformation Layer — `plaid_dbt`
