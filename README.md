@@ -135,22 +135,39 @@ dbt views built on top of `plaid_raw`:
 ![dbt Models](dbt/tables/dbt.png)
 
 ---
-
 ## dbt Transformations
 
-All business logic is handled in dbt — not in Python — keeping the raw layer clean and transformations version controlled:
+All business logic is handled in dbt — not in Python — keeping the raw layer clean,
+testable, and version controlled. Schema tests enforce `not_null` and `unique` constraints
+on all primary keys and critical fields. Transformations are rebuilt fresh on every pipeline run.
 
 | Field | Transformation |
 |---|---|
-| `days_since_transaction` | Recalculated fresh every run from `current_date()` |
-| `pending` | `Yes` / `No` based on whether transaction date equals today |
-| `is_large_transaction` | `Yes` if `amount_usd > $1,000` |
-| `amount_bucket` | Spending tiers: Under $10, $10-$50, $50-$100, $100-$500, Over $500 |
-| `transaction_direction` | `Debit` / `Credit` based on amount sign |
-| `category_primary` | Proper case formatting (`FOOD_AND_DRINK` → `Food And Drink`) |
-| `category_detail` | Proper case formatting |
-| `payment_channel` | Proper case formatting |
-| `country` | `US` → `USA` |
+| `days_since_transaction` | Recalculated dynamically each run using `current_date()` to stay current |
+| `pending` | Flags transactions as `Yes` / `No` based on whether the transaction date matches today |
+| `is_large_transaction` | Identifies high-value spend — `Yes` if `amount_usd > $1,000` |
+| `amount_bucket` | Classifies transactions into spending tiers: Under $10, $10–$50, $50–$100, $100–$500, Over $500 |
+| `transaction_direction` | Derives cash flow direction — `Debit` / `Credit` — from amount sign |
+| `category_primary` | Normalizes Plaid category codes to readable labels (`FOOD_AND_DRINK` → `Food And Drink`) |
+| `category_detail` | Applies same proper case normalization to subcategory field |
+| `payment_channel` | Standardizes payment channel casing for consistent reporting |
+| `country` | Expands country code to full abbreviation (`US` → `USA`) |
+
+### dbt Tests
+
+Schema tests are defined in `schema.yml` and run automatically as part of the Airflow pipeline:
+
+| Model | Column | Tests |
+|---|---|---|
+| `fact_transactions` | `plaid_transaction_id` | `not_null`, `unique` |
+| `fact_transactions` | `account_id` | `not_null` |
+| `fact_transactions` | `date_id` | `not_null` |
+| `fact_transactions` | `category_id` | `not_null` |
+| `fact_transactions` | `location_id` | `not_null` |
+| `dim_account` | `account_id` | `not_null`, `unique` |
+| `dim_date` | `date_id` | `not_null`, `unique` |
+| `dim_category` | `category_id` | `not_null`, `unique` |
+| `dim_location` | `location_id` | `not_null`, `unique` |
 
 ---
 
