@@ -9,8 +9,7 @@ The Looker Studio dashboard connects directly to `plaid_dbt.analytics_view` in B
 
 ## Overview
 
-A production-grade financial data engineering pipeline that ingests real-time transaction data from the **Plaid API**, processes 500,000+ records using **Apache Spark**, stores raw data in **Google Cloud Storage**, transforms it into a star schema in **BigQuery**, applies business logic transformations with **dbt**, and orchestrates the entire workflow daily with **Apache Airflow**.
-
+**A full-stack financial data pipeline — from Plaid API to production-ready analytics. Built with PySpark, BigQuery, dbt, and Airflow.**
 ---
 
 ## Architecture
